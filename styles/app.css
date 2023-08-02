@@ -243,7 +243,6 @@ button {
     font-family: 'Anton', sans-serif;
     animation: wikipediaTitle 8s cubic-bezier(0.55, 0.06, 0.68, 0.19);
     letter-spacing: 1.1rem;
-    /*text-indent: 1.1em;*/
     text-shadow: 0rem 0rem 1rem #000000;
     font-size: 5rem;
     filter: blur(13px);
@@ -252,8 +251,6 @@ button {
 #title-content h1 {
 
 	font-size: 7rem;
-    /*letter-spacing: 2rem;
-    text-indent: 2em;*/
     transform: scaleX(1.5);
 
 }
@@ -380,21 +377,7 @@ button {
 
 .init-text-fade-out {
 
-	animation: fadeOut .7s !important;
-
-}
-
-@keyframes fadeOut {
-
-	0% {
-		opacity: 1;
-	}
-
-	100% {
-
-		opacity: 0;
-
-	}
+	animation: fade-out .7s !important;
 
 }
 
@@ -599,12 +582,7 @@ button {
     flex-direction: column;
     cursor: grab;
 	overflow-y: scroll;
-    /*scroll-snap-type: y proximity;
-    scroll-padding-bottom: 1rem;
-    scroll-padding-top: 1rem;
-    scroll-snap-align: center;*/
-    /*overscroll-behavior: contain;
-    scroll-behavior: smooth;*/
+	
 }
 
 #feed content.active {
@@ -745,8 +723,6 @@ button {
 
 .slide-up {
 
-	/*transform: translateY(100px);*
-	/*opacity: 0;*/
 	animation: slideUp 1s;
 
 }
@@ -771,48 +747,6 @@ button {
 
 }
 
-@keyframes tvLines {
-
-	0% {
-
-		background-position-y: 0px;
-		background: repeating-linear-gradient(0deg, #111 0px, #111 1px, transparent 2px, transparent 5px);
-
-	}
-
-	20% {
-
-		background: repeating-linear-gradient(8deg, #111 0px, #111 1px, transparent 2px, transparent 5px);
-
-	}
-
-	40% {
-
-		background: repeating-linear-gradient(4deg, #111 0px, #111 1px, transparent 2px, transparent 5px);
-
-	}
-
-	60% {
-
-		background: repeating-linear-gradient(2deg, #111 0px, #111 1px, transparent 2px, transparent 5px);
-
-	}
-
-	80% {
-
-		background: repeating-linear-gradient(3deg, #111 0px, #111 1px, transparent 2px, transparent 5px);
-
-	}
-
-	100% {
-
-		background-position-y: 100px;
-		background: repeating-linear-gradient(0deg, #111 0px, #111 1px, transparent 2px, transparent 5px);
-
-	}
-
-}
-
 #options .correct .label {
 
 	text-shadow: 0 1px #2e672f;
@@ -830,7 +764,7 @@ button {
 	background: #a73030;
     color: white;
     text-shadow: 0 1px #2e672f;
-    tranform: scale( 1 );
+    transform: scale( 1 );
     animation: option-lose 1.5s;
     pointer-events: none;
     color: black;
@@ -860,7 +794,7 @@ button {
 	55% {
 
 		color: white;
-		tranform: scale(1.1);
+		transform: scale(1.1);
 		background: #a73030;
 	}
 
@@ -1038,40 +972,34 @@ button {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 1rem;
+	width: 1rem;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f100;
-  margin-top: -1rem;
+	background: #f1f1f100;
 }
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+	background: #888; 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+	background: #555; 
 }
 
 .row {
-
 	width: 100%;
 	display: flex;
-
 }
 
 #options .row {
-
     display: flex;
-
 }
 
 #game-sidebar {
-
 	position: absolute;
     right: 0;
     width: 27rem;
@@ -1081,16 +1009,15 @@ button {
     box-shadow: 5rem 0 14rem 5rem black;
     display: flex;
     flex-direction: column;
-
     opacity: 0;
-    translate: 0rem;
+    transform: translate(0rem);
 
 }
 
 #game-sidebar.open {
 
 	opacity: 1;
-    translate: 0rem;
+    transform: translate(0rem);
 	animation: open-menu .5s;
 
 }
@@ -1098,7 +1025,7 @@ button {
 #game-sidebar.closed {
 
 	opacity: 0;
-    translate: 27rem;
+    transform: translate(27rem);
 	animation: close-menu .4s;
 
 }
@@ -1107,14 +1034,14 @@ button {
 
 	0% {
 
-		translate: 27rem;
+		transform: translate(27rem);
 		opacity: 0;
 
 	}
 
 	100% {
 
-		translate: 0rem;
+		transform: translate(0rem);
 		opacity: 1;
 
 	}
@@ -1124,14 +1051,14 @@ button {
 
 	0% {
 
-		translate: 0rem;
+		transform: translate(0rem);
 		opacity: 1;
 
 	}
 
 	100% {
 
-		translate: 27rem;
+		transform: translate(27rem);
 		opacity: 0;
 
 	}
@@ -1376,12 +1303,6 @@ input[type=range]::-ms-thumb {
 
 }
 
-.page .option .label {
-
-
-
-}
-
 .page .option .value {
 
 	margin-left: auto;
@@ -1522,7 +1443,6 @@ input[type=range]::-ms-thumb {
 .score .label {
 
     font-family: 'Monofett', 'Inconsolata';
-    /*text-shadow: 3px -3px #f8c2fd, 9px 3px #b8ffb3;*/
     color: #141816;
 
 }
