@@ -796,7 +796,7 @@ async function displayDocument() {
 async function showPressAny() {
 
 	document.querySelector(`#initiation-text`).classList.remove(`hidden`);
-
+	
 	loadSettings();
 
 };
@@ -808,6 +808,24 @@ async function whenPressAny() {
 		document.body.onclick = () => {
 
 			document.body.onclick = undefined;
+			document.body.onkeydown = undefined;
+
+			document.querySelector('#initiation-text').classList.add('init-text-fade-out');
+			document.querySelector(`#initiation-text`).onanimationend = () => {
+
+				document.querySelector(`#initiation-text`).onanimationend = undefined;
+				document.querySelector(`#initiation-text`).classList.remove('init-text-fade-out');
+				resolve();
+
+			}
+
+		}
+
+		document.body.onkeydown = () => {
+
+			document.body.onclick = undefined;
+			document.body.onkeydown = undefined;
+
 			document.querySelector('#initiation-text').classList.add('init-text-fade-out');
 			document.querySelector(`#initiation-text`).onanimationend = () => {
 
