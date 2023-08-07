@@ -1,33 +1,3 @@
-const masterGain = new Tone.Gain();
-masterGain.toDestination();
-
-const UIGain = new Tone.Gain().connect( masterGain );
-
-const ambientGain = new Tone.Gain();
-ambientGain.connect( masterGain );
-
-const musicGain = new Tone.Gain();
-musicGain.connect( masterGain );
-
-const musicSynthA = new Tone.MonoSynth({
-	oscillator: {
-		type: "sawtooth"
-	}
-}).connect( musicGain );
-
-const musicBassSynth = new Tone.MonoSynth({
-	oscillator: {
-		type: "triangle"
-	}
-}).connect( musicGain );
-
-const musicSynthB = new Tone.MonoSynth({
-	oscillator: {
-		type: "sawtooth"
-	}
-}).connect( musicGain );
-
-
 const seqA = new Tone.Sequence(( time, note ) => {
 
 	musicSynthA.triggerAttackRelease( note, 2.5, time, 0.01 );
@@ -78,6 +48,7 @@ const UISynthA = new Tone.MonoSynth({
 		release: 0.1
 	}
 }).connect( UIGain );
+
 const UISynthB = new Tone.MonoSynth({
 	oscillator: {
 		type: "square"
@@ -89,6 +60,7 @@ const UISynthB = new Tone.MonoSynth({
 		release: 0.1
 	}
 }).connect( UIGain );
+
 const UISynthC = new Tone.MonoSynth({
 	oscillator: {
 		type: "triangle",
@@ -252,17 +224,7 @@ const UISynthZ = new Tone.MonoSynth({
 const UINoiseSynthA = new Tone.NoiseSynth().connect( UIGain );
 const UINoiseSynthB = new Tone.NoiseSynth().connect( UIGain );
 
-
-
-const AmbientSynthA = new Tone.FatOscillator("C0", "triangle", 40 ).connect( ambientGain );
-AmbientSynthA.volume.value = -5;
-
-const AmbientNoiseA = new Tone.Noise("white").connect( ambientGain );
-AmbientNoiseA.volume.value = -80;
-
-document.onclick = Tone.start;
-
-function playWinSound() {
+export function Win() {
 
 	const vol = 0.05;
 
@@ -287,7 +249,7 @@ function playWinSound() {
 
 };
 
-function playLoseSound() {
+export function Lose() {
 
 	const vol = 0.05;
 
@@ -313,7 +275,7 @@ function playLoseSound() {
 
 };
 
-function playAddCreditsSound() {
+export function AddCredits() {
 
 	try {
 
@@ -324,7 +286,7 @@ function playAddCreditsSound() {
 
 };
 
-function playRemoveCreditsSound() {
+export function RemoveCredits() {
 
 	try {
 
@@ -335,7 +297,7 @@ function playRemoveCreditsSound() {
 
 };
 
-function playFailClickButtonSound() {
+export function FailClickButton() {
 
 	try {
 
@@ -346,7 +308,7 @@ function playFailClickButtonSound() {
 
 };
 
-function playClickButtonSound() {
+export function ClickButton() {
 
 	try {
 
@@ -359,13 +321,13 @@ function playClickButtonSound() {
 
 for( const e of document.querySelectorAll('button') ) e.addEventListener('click', () => {
 
-	if( !e.classList.contains('disabled') ) playClickButtonSound();
+	if( !e.classList.contains('disabled') ) ClickButton();
 
-	else playFailClickButtonSound();
+	else FailClickButton();
 
 } );
 
-function playHoverButtonSound() {
+export function HoverButton() {
 
 	try {
 
@@ -376,20 +338,19 @@ function playHoverButtonSound() {
 
 }
 
-for( const e of document.querySelectorAll('button') ) e.addEventListener('mouseover', playHoverButtonSound );
+for( const e of document.querySelectorAll('button') ) e.addEventListener('mouseover', HoverButton );
 
 
-function playFailSound() {
+export function Fail() {
 
 
 	const now = Tone.now();
-	//hoverMetalSynth.triggerAttackRelease("C1", 1, now, .01 );
 	UISynthA.triggerAttackRelease("C4", .3, now, 1 );
 	UISynthB.triggerAttackRelease("C3", .1, now, 1 );
 
 };
 
-function playTypeWordSound() {
+export function TypeWord() {
 
 	try {
 
@@ -400,7 +361,7 @@ function playTypeWordSound() {
 
 };
 
-function playTypeLetterSound() {
+export function TypeLetter() {
 
 	try {
 
@@ -412,7 +373,7 @@ function playTypeLetterSound() {
 
 };
 
-function playRemoveLetterSound() {
+export function RemoveLetter() {
 
 	try {
 
@@ -422,7 +383,7 @@ function playRemoveLetterSound() {
 
 };
 
-function playOptionOutSound() {
+export function OptionOut() {
 
 	try {
 
@@ -433,7 +394,7 @@ function playOptionOutSound() {
 
 }
 
-function playOptionInSound() {
+export function OptionIn() {
 
 	try {
 
@@ -444,7 +405,7 @@ function playOptionInSound() {
 	
 }
 
-function playCloseMenuSound() {
+export function CloseMenu() {
 
 	try {
 
@@ -455,7 +416,7 @@ function playCloseMenuSound() {
 	
 };
 
-function playOpenMenuSound() {
+export function OpenMenu() {
 
 	try {
 

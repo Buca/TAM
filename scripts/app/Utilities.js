@@ -1,34 +1,28 @@
-const filterList = [
-	'list of',
-	'filmography', 
-	'discography'
-];
+let paused = false;
 
-function filterDocuments( titles ) {
+window.addEventListener('blur', () => {
 
-	const result = [];
+	paused = true;
 
-	console.log('Filter Documents: ', titles );
+});
 
-	for ( const item of titles ) {
+window.addEventListener('focus', () => {
 
-		const doc = nlp( item.title ).normalize();
+	paused = false;
+	for ( const resolve of whenNotPausedResolve ) resolve();
+	whenNotPausedResolve.length = 0;
 
-		for (const word of filterList) {
+});
 
-			if ( doc.has(word) || result.includes( item ) ) continue;
+const whenNotPausedResolve = [];
 
-			result.push( item );
+async function whenNotPaused() {
 
-		}
+	return new Promise( ( resolve, reject ) => whenNotPausedResolve.push( resolve ));
 
-	}
-
-	return result;
 };
 
 async function retrieveSnippetsByTitle( title ) {
-
 
 	const params = new URLSearchParams({
 
@@ -74,7 +68,6 @@ async function retrieveTitlesFromRandomCategory() {
 
 	const url = `https://en.wikipedia.org/w/api.php?${params.toString()}`;
 
-
 	let documents = [];
 
 	while( documents.length < 4 ) {
@@ -86,8 +79,6 @@ async function retrieveTitlesFromRandomCategory() {
 		documents = (await retrieveTitlesFromCategory( title ));
 
 		if( documents === false ) continue;
-
-		documents = filterDocuments( documents );
 
 
 	}
@@ -210,23 +201,6 @@ async function retrieveTitlesFromCategory( category ) {
 
 };
 
-function chooseN( options, n ) {
-
-	const result = [];
-
-	while ( result.length < n ) {
-
-		const index = Math.floor( Math.random() * options.length );
-		const option = options[ index ];
-
-		if ( !result.includes( option ) ) result.push( option );
-
-	}
-
-	return result;
-
-};
-
 function chooseOneRandomly( options ) {
 
 	return options[ Math.floor( Math.random() * options.length )];
@@ -261,126 +235,30 @@ async function retrieveTurn( category, difficulty ) {
 
 };
 
-function subwords( word ) {
+let NLPWorker;
 
+async function obfuscate( title, text, threshold = 0 ) {
 
-	const result = [];
+	if ( !NLPWorker ) NLPWorker = new Worker('scripts/app/NLPWorker.js'); 
 
-	for( let start = 0; start < word.length - 1; start ++ ) {
-
-		if( word.charAt( start ) !== ' ' && start !== 0 ) continue;
-
-		for( let end = start + 1; end < word.length; end ++ ) {
-
-			if( word.charAt( end ) !== ' ' && end !== word.length - 1 ) continue;
-
-			const subword = word.slice( start, end + 1 ).toLowerCase().trim().replace('(','').replace(')','');
-
-			if( !result.includes( subword ) ) result.push( subword );
-
-		}
-
-	}
-
-	return result.sort((a, b) => b.length - a.length);
-
-};
-
-function filterSubwords( subwords ) {
-
-	return subwords.filter( word => {
-
-		return 
-			word == '' || word == 'the' ||
-			words == 'and' || words == 'or' ||
-			words == 'of';
-
+	NLPWorker.postMessage({
+	
+		title: title,
+		text: text,
+		threshold: threshold
+	
 	});
 
-};
+	return new Promise( ( resolve ) => {
 
-function popGreatestSubword( subwords ) {
-
-	let subword = undefined;
-	let index = 0;
-
-	for( let i = 0; i < subwords.length; i ++ ) {
-
-		if( subword === undefined || subwords[ i ].includes( subwords ) ) {
-
-			index = i;
-			subword = subwords[ i ];
+		NLPWorker.onmessage = ( evt ) => {
+		
+			NLPWorker.onmessage = undefined;
+			resolve( evt.data );
 
 		}
 
-	}
-
-	return subwords.splice( index, 1 )[ 0 ];
-
-};
-
-
-function obfuscate( title, text, threshold = 0 ) {
-
-	// 1. Accumulate title to respective subwords
-	// 2. Filter out duplicates and words like 'the', 'and' ...
-	// 3. Pick the largest of the subwords
-	// 4. Fuzzy match the subword with the text
-	// 5. Replace that part with a OBFUSCATE term/object
-	// 6. Repeat from step 3. with the next largest subword,
-	//	  until you run out of words.
-	// 7. Return final result.
-
-
-	let words = subwords( title );
-	let auxText = text;
-
-	//words = filterSubwords( words );
-
-	const matches = []; 
-
-	while( words.length > 0 ) {
-
-		const word = nlp(popGreatestSubword( words )).normalize().text();
-
-		matches.push({
-
-			match: `(${word}|~${word}~)`,
-			tag: 'hide',
-			fuzzy: 0.6
-
-		});
-
-	}
-
-	const net = nlp.buildNet( matches );
-	const doc = nlp( auxText ).normalize();
-	const res = doc.sweep( net );
-	
-	const json = doc.json();
-
-	const result = [];
-
-	for( const sentance of json ) {
-
-		const section = [];
-
-		for( const term of sentance.terms ) {
-
-			section.push({
-
-				text: term.pre + term.text + term.post,
-				hide: term.tags.includes( 'hide' ) || Math.random() > 1 - threshold
-
-			});
-
-		}
-
-		result.push(section)
-
-	}
-
-	return result;
+	});
 
 };
 
@@ -402,6 +280,8 @@ async function writeEachLetter( text, targetElement, ms, callback, removeHandler
 
 	for ( let i = 0; i < textContentLength; i ++ ) {
 
+		if ( paused ) await whenNotPaused();
+
 		let text = targetElement.textContent.slice(0, textContentLength - i - 1);
 
 		if (targetElement.getAttribute('timer-id') !== timerId) return;
@@ -415,6 +295,8 @@ async function writeEachLetter( text, targetElement, ms, callback, removeHandler
 
 	for( let i = 0; i < text.length; i ++ ) {
 
+		if ( paused ) await whenNotPaused();
+
 		if (targetElement.getAttribute('timer-id') !== timerId) return;
 
 		if ( callback ) callback();
@@ -423,7 +305,7 @@ async function writeEachLetter( text, targetElement, ms, callback, removeHandler
 		if( i === 0 ) targetElement.textContent = letter;
 		else targetElement.textContent += letter;
 
-		if( i < text.length - 1 ) await delay( ms );
+		if( i < text.length - 1 ) timeoutId = await delay( ms );
 
 	}
 

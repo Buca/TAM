@@ -16,15 +16,7 @@
 		
 		<!-- LIBRARY SCRIPTS -->
 		<script src="scripts/libs/particle.min.js"></script>
-		<script src="scripts/libs/Tone.js"></script>
-		<script src="scripts/libs/compromise.js"></script>
-
-		<!-- APP SETUP -->
-		<script src="scripts/app/Utilities.js"></script>
-		<script src="scripts/app/State.js"></script>
-		<script src="scripts/app/AudioSetup.js"></script>
-		
-		<title>THE AFTERMATH</title>
+		<title>The Aftermath</title>
 	</head>
 
 	<body>
@@ -51,10 +43,38 @@
 			</div>
 			<div id="noise-small" class="full effect"></div>
 			<div id="particles" class="full effect"></div>
+			<script>
 
+				particlesJS("particles", {
+				  particles: {
+				    number: { value: 16, density: { enable: true, value_area: 800 } },
+				    color: { value: "#CCC" },
+				    shape: {
+				      type: "circle",
+				      stroke: { width: 0, color: "#000000" },
+				      polygon: { nb_sides: 5 }
+				    },
+				    opacity: {
+				      value: 0.4,
+				      random: true,
+				      anim: { enable: true, speed: 1, opacity_min: 0.6, sync: false }
+				    },
+				    size: {
+				      value: 200,
+				      random: true,
+				      anim: { enable: true, speed: 1, size_min: 50, sync: false }
+				    },
+				    line_linked: {
+				      enable: false
+				    }
+				  }//,
+				  //retina_detect: true
+				});
 
+			
+			</script>
 			<div id="title-content" class="full">
-				<div class="hidden" id="initiation-text">PRESS ANYTHING</div>
+				<div id="initiation-text">LOADING ASSETS</div>
 				<div id="title-sequence" class="full hidden">
 					<h1>THE</h1>
 					<h2>AFTERMATH</h2>
@@ -166,11 +186,11 @@
 							<span class="dots"></span>
 							<i class="gg-games"></i>
 						</button>-->
-						<button class="menu-option" page-id="graphics-page">
+						<!--<button class="menu-option" page-id="graphics-page">
 							<span>GRAPHICS</span>
 							<span class="dots"></span>
 							<i class="gg-image"></i>
-						</button>
+						</button>-->
 						<button class="menu-option" page-id="sound-page">
 							<span>SOUND</span>
 							<span class="dots"></span>
@@ -182,7 +202,7 @@
 							<i class="gg-align-bottom"></i>
 						</button>
 						<div class="row">
-							<button id="load-game-button" class="option">LOAD GAME</button>
+							<button id="reset-game-button" class="option">RESET GAME</button>
 							<button id="save-game-button" class="option">NEW GAME</button>
 						</div>
 					</div>
@@ -329,19 +349,9 @@
 						<input type="text" id="category-search" class="option">
 						<h3>recently used categories</h3>
 						<div id="recent-categories" class="results">
-							<button class="option result">
-								<span class="label">Random</span>
-							</button>
-							<button class="option result">
-								<span class="label">Actresses Born in the 70s</span>
-							</button>
 						</div>
 						<h3>search results</h3>
 						<div id="search-results" class="results">
-							<button class="option result">
-								<span class="label">Tim Burton's Movies</span>
-								<span class="value">+200 <i></i></span>
-							<button>
 						</div>
 					</div>
 
@@ -357,8 +367,12 @@
 
 			</div>
 		
-		<script src="scripts/app/NetworkStatus.js"></script>
-		<script src="scripts/app/app.js"></script>
+		<script src="scripts/libs/Tone.js" defer></script>
+		<script src="scripts/app/PreappAudioSetup.js" defer></script>
+		<script src="scripts/app/Utilities.js" defer></script>
+		<script src="scripts/app/State.js" defer></script>
+		<script src="scripts/app/App.js" defer></script>
+		<script src="scripts/app/NetworkStatus.js" defer></script>
 
 	</body>
 

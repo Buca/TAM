@@ -16,11 +16,10 @@ async function showNetworkStatus() {
 
 		status.classList.remove('fade-in');
 
-
 	};
 
 	await delay( 250 );
-	writeEachLetter( 'DISCONNECTED!', title, 5, playTypeLetterSound, playRemoveLetterSound );
+	writeEachLetter( 'DISCONNECTED!', title, 5, Sound.TypeLetter, Sound.RemoveLetter );
 
 };
 
@@ -37,7 +36,7 @@ async function hideNetworkStatus() {
 	text.classList.add('hidden');
 
 	title.textContent = '';
-	await writeEachLetter( 'CONNECTED!', title, 5, playTypeLetterSound, playRemoveLetterSound );
+	await writeEachLetter( 'CONNECTED!', title, 5, Sound.TypeLetter, Sound.RemoveLetter );
 
 	document
 		.getElementById('network-status')
