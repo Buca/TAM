@@ -1,6 +1,6 @@
 # The Aftermath
 An online open source text guessing game! The player is presented with Wikipedia text fragments that are partially broken or obfuscated and the player needs to guess which one of the presented options it is.
-[PLAY IT NOW!](https://buca.github.io/TAM/)
+[PLAY IT NOW!](https://buca.github.io/The%20Aftermath/)
 
 ## Features
 - [x] Load and save game
